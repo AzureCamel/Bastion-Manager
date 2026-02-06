@@ -1,0 +1,252 @@
+<section class="detail-facilities tab-content active" data-tab="facilities" data-group="primary">
+  {{#if actor}}
+  <div class="facilities-content">
+    <div class="facilities-columns">
+      
+      {{!-- Special Facilities (LEFT) --}}
+      <div class="facilities-column special-column">
+        <h3 class="section-header">
+          <i class="fas fa-building-columns"></i>
+          {{localize "DND5E.FACILITY.Types.Special.Label.other"}}
+          <span class="counter">{{facilities.special.value}} / {{facilities.special.max}}</span>
+        </h3>
+        
+        <ul class="facility-list">
+          {{#each facilities.special.chosen as |fac|}}
+          <li class="facility-item {{#if fac.disabled}}disabled{{/if}} {{#unless fac.building.built}}building{{/unless}}"
+              data-facility-id="{{fac.id}}">
+            
+            <div class="facility-main">
+              <div class="facility-image" data-action="openFacility" data-tooltip="{{localize 'BASTION_MANAGER.Detail.OpenFacility'}}">
+                <img src="{{fac.img}}" alt="{{fac.name}}">
+                {{#if fac.disabled}}
+                <div class="disabled-overlay">
+                  <i class="fas fa-wrench"></i>
+                </div>
+                {{/if}}
+              </div>
+              
+              <div class="facility-info">
+                <div class="facility-header-row">
+                  <span class="facility-name {{#if @root.editable}}clickable{{/if}}" 
+                        {{#if @root.editable}}data-action="useFacility"{{/if}}
+                        data-tooltip="{{#if @root.editable}}{{localize 'BASTION_MANAGER.Detail.UseFacility'}}{{/if}}">
+                    {{fac.name}}
+                  </span>
+                  {{#if fac.executing}}
+                  <div class="order-badge" data-tooltip="{{fac.executingLabel}}">
+                    <img src="{{fac.executing}}" alt="Order">
+                  </div>
+                  {{/if}}
+                </div>
+                <span class="facility-subtitle">{{{fac.subtitle}}}</span>
+                
+                {{#if fac.progress.max}}
+                <div class="facility-progress">
+                  <div class="progress-bar" style="width: {{fac.progress.pct}}%"></div>
+                  <span class="progress-text">{{fac.progress.value}} / {{fac.progress.max}} {{localize "BASTION_MANAGER.Facilities.Days"}}</span>
+                </div>
+                {{/if}}
+              </div>
+              
+              {{#if @root.editable}}
+              <div class="facility-controls">
+                <button type="button" class="control-btn" data-action="editFacility" data-tooltip="{{localize 'BASTION_MANAGER.Detail.EditFacility'}}">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="control-btn danger" data-action="deleteFacility" data-tooltip="{{localize 'BASTION_MANAGER.Detail.DeleteFacility'}}">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              {{/if}}
+            </div>
+            
+            {{#if fac.hasOccupants}}
+            <div class="facility-occupants-section">
+              {{#if fac.hirelings.length}}
+              <div class="occupant-group" data-facility-id="{{fac.id}}" data-prop="system.hirelings">
+                <span class="group-label">
+                  <i class="fas fa-user"></i>
+                  {{localize "DND5E.FACILITY.FIELDS.hirelings.max.label"}}
+                </span>
+                <div class="occupant-slots">
+                  {{#each fac.hirelings as |occ|}}
+                  <div class="occupant-slot {{#if occ.empty}}empty{{/if}}" 
+                       data-index="{{occ.index}}"
+                       data-prop="system.hirelings"
+                       {{#if occ.actor}}data-tooltip="{{occ.actor.name}}"{{else}}data-tooltip="{{localize 'BASTION_MANAGER.Detail.DropActor'}}"{{/if}}>
+                    {{#if occ.actor}}
+                    <img src="{{occ.actor.img}}" alt="{{occ.actor.name}}">
+                    {{#if @root.editable}}
+                    <button type="button" class="delete-btn" data-action="deleteOccupant" data-tooltip="{{localize 'BASTION_MANAGER.Detail.RemoveOccupant'}}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    {{/if}}
+                    {{else}}
+                    <i class="fas fa-user-plus"></i>
+                    {{/if}}
+                  </div>
+                  {{/each}}
+                </div>
+              </div>
+              {{/if}}
+              
+              {{#if fac.defenders.length}}
+              <div class="occupant-group" data-facility-id="{{fac.id}}" data-prop="system.defenders">
+                <span class="group-label">
+                  <i class="fas fa-shield"></i>
+                  {{localize "DND5E.FACILITY.FIELDS.defenders.max.label"}}
+                </span>
+                <div class="occupant-slots">
+                  {{#each fac.defenders as |occ|}}
+                  <div class="occupant-slot {{#if occ.empty}}empty{{/if}}" 
+                       data-index="{{occ.index}}"
+                       data-prop="system.defenders"
+                       {{#if occ.actor}}data-tooltip="{{occ.actor.name}}"{{else}}data-tooltip="{{localize 'BASTION_MANAGER.Detail.DropActor'}}"{{/if}}>
+                    {{#if occ.actor}}
+                    <img src="{{occ.actor.img}}" alt="{{occ.actor.name}}">
+                    {{#if @root.editable}}
+                    <button type="button" class="delete-btn" data-action="deleteOccupant" data-tooltip="{{localize 'BASTION_MANAGER.Detail.RemoveOccupant'}}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    {{/if}}
+                    {{else}}
+                    <i class="fas fa-shield"></i>
+                    {{/if}}
+                  </div>
+                  {{/each}}
+                </div>
+              </div>
+              {{/if}}
+              
+              {{#if fac.creatures.length}}
+              <div class="occupant-group" data-facility-id="{{fac.id}}" data-prop="system.trade.creatures">
+                <span class="group-label">
+                  <i class="fas fa-horse-head"></i>
+                  {{localize "BASTION_MANAGER.Facilities.Creatures"}}
+                </span>
+                <div class="occupant-slots">
+                  {{#each fac.creatures as |occ|}}
+                  <div class="occupant-slot {{#if occ.empty}}empty{{/if}}" 
+                       data-index="{{occ.index}}"
+                       data-prop="system.trade.creatures"
+                       {{#if occ.actor}}data-tooltip="{{occ.actor.name}}"{{else}}data-tooltip="{{localize 'BASTION_MANAGER.Detail.DropActor'}}"{{/if}}>
+                    {{#if occ.actor}}
+                    <img src="{{occ.actor.img}}" alt="{{occ.actor.name}}">
+                    {{#if @root.editable}}
+                    <button type="button" class="delete-btn" data-action="deleteOccupant" data-tooltip="{{localize 'BASTION_MANAGER.Detail.RemoveOccupant'}}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    {{/if}}
+                    {{else}}
+                    <i class="fas fa-horse-head"></i>
+                    {{/if}}
+                  </div>
+                  {{/each}}
+                </div>
+              </div>
+              {{/if}}
+            </div>
+            {{/if}}
+            
+            {{#if fac.craft}}
+            <div class="facility-craft">
+              <span class="craft-label">{{localize "BASTION_MANAGER.Facilities.Crafting"}}:</span>
+              <div class="craft-item" data-tooltip="{{fac.craft.name}}">
+                <img src="{{fac.craft.img}}" alt="{{fac.craft.name}}">
+                <span>{{fac.craft.name}}</span>
+              </div>
+            </div>
+            {{/if}}
+          </li>
+          {{/each}}
+          
+          {{#each facilities.special.available as |slot|}}
+          {{#if @root.editable}}
+          <li class="facility-item empty" data-action="addFacility" data-facility-type="special">
+            <div class="empty-content">
+              <i class="fas fa-plus-circle"></i>
+              <span>{{localize slot.label}}</span>
+            </div>
+          </li>
+          {{/if}}
+          {{/each}}
+        </ul>
+      </div>
+      
+      {{!-- Basic Facilities (RIGHT) --}}
+      <div class="facilities-column basic-column">
+        <h3 class="section-header">
+          <i class="fas fa-chess-rook"></i>
+          {{localize "DND5E.FACILITY.Types.Basic.Label.other"}}
+          <span class="counter">{{facilities.basic.value}} / {{facilities.basic.max}}</span>
+        </h3>
+        
+        <ul class="facility-list basic-list">
+          {{#each facilities.basic.chosen as |fac|}}
+          <li class="facility-item {{#if fac.disabled}}disabled{{/if}} {{#unless fac.building.built}}building{{/unless}}"
+              data-facility-id="{{fac.id}}">
+            
+            <div class="facility-image" data-action="openFacility" data-tooltip="{{localize 'BASTION_MANAGER.Detail.OpenFacility'}}">
+              <img src="{{fac.img}}" alt="{{fac.name}}">
+              {{#if fac.disabled}}
+              <div class="disabled-overlay">
+                <i class="fas fa-wrench"></i>
+              </div>
+              {{/if}}
+            </div>
+            
+            <div class="facility-info">
+              <div class="facility-header-row">
+                <span class="facility-name {{#if @root.editable}}clickable{{/if}}" 
+                      {{#if @root.editable}}data-action="useFacility"{{/if}}
+                      data-tooltip="{{#if @root.editable}}{{localize 'BASTION_MANAGER.Detail.UseFacility'}}{{/if}}">
+                  {{fac.name}}
+                </span>
+                {{#if fac.executing}}
+                <div class="order-badge" data-tooltip="{{fac.executingLabel}}">
+                  <img src="{{fac.executing}}" alt="Order">
+                </div>
+                {{/if}}
+              </div>
+              <span class="facility-subtitle">{{{fac.subtitle}}}</span>
+            </div>
+            
+            {{#if @root.editable}}
+            <div class="facility-controls">
+              <button type="button" class="control-btn" data-action="editFacility" data-tooltip="{{localize 'BASTION_MANAGER.Detail.EditFacility'}}">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button type="button" class="control-btn danger" data-action="deleteFacility" data-tooltip="{{localize 'BASTION_MANAGER.Detail.DeleteFacility'}}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            {{/if}}
+            
+            {{#if fac.progress.max}}
+            <div class="progress-mini">
+              <div class="progress-bar" style="width: {{fac.progress.pct}}%"></div>
+            </div>
+            {{/if}}
+          </li>
+          {{/each}}
+          
+          {{#each facilities.basic.available as |slot|}}
+          {{#if @root.editable}}
+          <li class="facility-item empty" data-action="addFacility" data-facility-type="basic">
+            <i class="fas fa-plus"></i>
+            <span>{{localize slot.label}}</span>
+          </li>
+          {{/if}}
+          {{/each}}
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+  {{else}}
+  <div class="no-facilities">
+    <p>{{localize "BASTION_MANAGER.Warnings.NoActorSelected"}}</p>
+  </div>
+  {{/if}}
+</section>

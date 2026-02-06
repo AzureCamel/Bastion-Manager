@@ -1,0 +1,37 @@
+<header class="detail-header">
+  {{#if actor}}
+  <div class="bastion-portrait" style="background-image: url('{{bastion.image}}');">
+  </div>
+  <div class="bastion-info">
+    <h1 class="bastion-title">{{bastion.name}}</h1>
+    <div class="owner-info" data-action="openActor" data-tooltip="{{localize 'BASTION_MANAGER.Detail.OpenCharacter'}}">
+      <img src="{{actor.img}}" alt="{{actor.name}}" class="owner-portrait">
+      <span class="owner-name">{{actor.name}}</span>
+      <span class="owner-level">{{localize "DND5E.Level"}} {{actor.system.details.level}}</span>
+    </div>
+  </div>
+  <div class="facility-summary">
+    <div class="summary-item special">
+      <i class="fas fa-building-columns"></i>
+      <span class="label">{{localize "DND5E.FACILITY.Types.Special.Label.other"}}</span>
+      <span class="value">{{facilities.special.value}} / {{facilities.special.max}}</span>
+      {{#if facilities.special.override}}
+      <span class="override" data-tooltip="{{localize 'BASTION_MANAGER.Detail.DMOverride'}}">+{{facilities.special.override}}</span>
+      {{/if}}
+    </div>
+    <div class="summary-item basic">
+      <i class="fas fa-chess-rook"></i>
+      <span class="label">{{localize "DND5E.FACILITY.Types.Basic.Label.other"}}</span>
+      <span class="value">{{facilities.basic.value}} / {{facilities.basic.max}}</span>
+      {{#if facilities.basic.override}}
+      <span class="override" data-tooltip="{{localize 'BASTION_MANAGER.Detail.DMOverride'}}">+{{facilities.basic.override}}</span>
+      {{/if}}
+    </div>
+  </div>
+  {{else}}
+  <div class="no-actor">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{localize "BASTION_MANAGER.Warnings.NoActorSelected"}}</span>
+  </div>
+  {{/if}}
+</header>

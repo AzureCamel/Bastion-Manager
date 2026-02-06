@@ -1,0 +1,44 @@
+{
+  "id": "bastion-manager",
+  "title": "Bastion Manager",
+  "description": "A standalone bastion management interface for D&D 5e. Access your bastion from the scene controls and manage facilities with a visual layout.",
+  "version": "2.3.2",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [
+    {
+      "name": "AzureCamel"
+    }
+  ],
+  "esmodules": ["scripts/module.mjs"],
+  "styles": ["styles/bastion-manager.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "5.0.0",
+          "verified": "5.2.0"
+        }
+      }
+    ]
+  },
+  "flags": {
+    "dnd5e": {
+      "needsMigration": false
+    }
+  },
+  "url": "https://github.com/AzureCamel/Bastion-Manager",
+  "manifest": "https://github.com/AzureCamel/Bastion-Manager/releases/latest/download/module.json",
+  "download": "https://github.com/AzureCamel/Bastion-Manager/releases/download/v2.3.2/module.zip"
+}

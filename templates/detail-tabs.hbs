@@ -1,0 +1,12 @@
+<nav class="bastion-tabs tabs" data-group="primary">
+  {{#each tabs as |tab|}}
+  <button type="button" 
+          class="tab-btn {{#if tab.active}}active{{/if}}" 
+          data-tab="{{tab.id}}" 
+          data-group="{{tab.group}}"
+          data-tooltip="{{localize tab.label}}">
+    <i class="{{tab.icon}}"></i>
+    <span class="tab-label">{{localize tab.label}}</span>
+  </button>
+  {{/each}}
+</nav>

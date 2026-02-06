@@ -1,0 +1,1374 @@
+/* ===========================================
+   Bastion Manager Module Styles - Dark Mode
+   =========================================== */
+
+/* CSS Variables - Dark Mode Theme */
+:root {
+  --bm-bg-dark: #1a1a1a;
+  --bm-bg: #242424;
+  --bm-surface: #2d2d2d;
+  --bm-surface-light: #3a3a3a;
+  --bm-surface-hover: #444444;
+  --bm-border: #404040;
+  --bm-border-light: #555555;
+  --bm-text: #e0e0e0;
+  --bm-text-muted: #999999;
+  --bm-text-bright: #ffffff;
+  --bm-accent: #c9a356;
+  --bm-accent-hover: #ddb85c;
+  --bm-accent-dim: #8b7339;
+  --bm-success: #4ecca3;
+  --bm-warning: #f0ad4e;
+  --bm-danger: #d9534f;
+  --bm-special: #9b59b6;
+  --bm-special-light: #b879d4;
+  --bm-basic: #5dade2;
+  --bm-basic-light: #85c1e9;
+  --bm-shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* ===========================================
+   Overview Application
+   =========================================== */
+
+.bastion-overview {
+  background: var(--bm-bg-dark);
+  color: var(--bm-text);
+}
+
+.bastion-overview .window-content {
+  padding: 0;
+  background: var(--bm-bg-dark);
+}
+
+.bastion-overview-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.bastion-overview .overview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bm-surface);
+  border-bottom: 2px solid var(--bm-accent);
+}
+
+.bastion-overview .overview-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--bm-text-bright);
+}
+
+.bastion-overview .overview-header h2 i {
+  color: var(--bm-accent);
+}
+
+.bastion-overview .refresh-btn {
+  background: transparent;
+  border: 1px solid var(--bm-border);
+  color: var(--bm-text);
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bastion-overview .refresh-btn:hover {
+  background: var(--bm-accent);
+  border-color: var(--bm-accent);
+  color: var(--bm-bg-dark);
+}
+
+/* Bastion Grid */
+.bastion-grid {
+  display: grid;
+  /* grid-template-columns set via inline style from settings */
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  background: var(--bm-bg-dark);
+}
+
+@media (max-width: 500px) {
+  .bastion-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.bastion-card {
+  position: relative;
+  background-color: var(--bm-surface);
+  background-size: cover;
+  background-position: center right;
+  border: 2px solid var(--bm-border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* height set via inline style from settings */
+}
+
+.bastion-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  --fade-pct: calc(var(--card-fade, 70) * 1%);
+  background: linear-gradient(to right, 
+    var(--card-accent, var(--bm-surface)) 0%, 
+    var(--card-accent, var(--bm-surface)) calc(var(--fade-pct) - 40%), 
+    color-mix(in srgb, var(--card-accent, var(--bm-surface)) 60%, transparent) calc(var(--fade-pct) - 10%), 
+    color-mix(in srgb, var(--card-accent, var(--bm-surface)) 20%, transparent) var(--fade-pct),
+    transparent 100%);
+  pointer-events: none;
+}
+
+.bastion-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--bm-accent);
+  box-shadow: 0 4px 16px var(--bm-shadow);
+}
+
+.bastion-card.owned {
+  border-color: var(--bm-success);
+}
+
+.bastion-card.owned:hover {
+  border-color: var(--bm-accent);
+}
+
+.bastion-overview .visibility-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(0,0,0,0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  z-index: 2;
+}
+
+.bastion-overview .visibility-badge.public {
+  color: var(--bm-success);
+}
+
+.bastion-overview .visibility-badge.shared {
+  color: var(--bm-warning);
+}
+
+.bastion-overview .card-settings-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid var(--bm-border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bm-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 2;
+  opacity: 0;
+}
+
+.bastion-overview .bastion-card:hover .card-settings-btn {
+  opacity: 1;
+}
+
+.bastion-overview .card-settings-btn:hover {
+  background: var(--bm-accent);
+  border-color: var(--bm-accent);
+  color: var(--bm-bg-dark);
+}
+
+/* Move visibility badge when settings button is present */
+.bastion-overview .bastion-card:has(.card-settings-btn) .visibility-badge {
+  right: 42px;
+}
+
+.bastion-overview .card-content {
+  position: relative;
+  z-index: 1;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  max-width: 70%;
+}
+
+.bastion-overview .card-content .bastion-name {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--card-text-color, var(--bm-text-bright));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Text outline for better readability on light backgrounds */
+.bastion-overview .bastion-card.text-outline .card-content .bastion-name,
+.bastion-overview .bastion-card.text-outline .card-content .owner-name,
+.bastion-overview .bastion-card.text-outline .card-content .count-item {
+  text-shadow: 
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* No-fade variant - removes gradient overlay */
+.bastion-overview .bastion-card.no-fade::before {
+  display: none;
+}
+
+.bastion-overview .card-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bastion-overview .owner-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bastion-overview .owner-portrait {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--bm-border);
+}
+
+.bastion-overview .owner-name {
+  font-size: 0.8rem;
+  color: var(--card-text-color, var(--bm-text-muted));
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.bastion-overview .facility-counts {
+  display: flex;
+  gap: 10px;
+}
+
+.bastion-overview .count-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--card-text-color, var(--bm-text-muted));
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.bastion-overview .count-item i {
+  font-size: 0.8rem;
+}
+
+.bastion-overview .count-item.special i {
+  color: var(--bm-special-light);
+}
+
+.bastion-overview .count-item.basic i {
+  color: var(--bm-basic-light);
+}
+
+/* Settings Dialog Styles */
+.bastion-settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bastion-settings-form fieldset {
+  border: 1px solid var(--color-border-light-tertiary);
+  border-radius: 6px;
+  padding: 12px;
+  margin: 0;
+}
+
+.bastion-settings-form fieldset legend {
+  padding: 0 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bastion-settings-form fieldset legend i {
+  opacity: 0.7;
+}
+
+.bastion-settings-form .form-group {
+  margin-bottom: 10px;
+}
+
+.bastion-settings-form .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.bastion-settings-form .form-group > label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.bastion-settings-form .form-fields {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.bastion-settings-form .form-fields input[type="text"] {
+  flex: 1;
+}
+
+.bastion-settings-form .picker-btn {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid var(--color-border-light-tertiary);
+  border-radius: 4px;
+  background: var(--color-bg);
+}
+
+.bastion-settings-form .picker-btn:hover {
+  background: var(--color-bg-option);
+  border-color: var(--color-border-highlight);
+}
+
+.bastion-settings-form .color-field input[type="color"] {
+  width: 50px;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid var(--color-border-light-tertiary);
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+}
+
+.bastion-settings-form .color-field input[type="text"] {
+  flex: 1;
+  font-family: monospace;
+  text-transform: uppercase;
+}
+
+.bastion-settings-form .slider-field {
+  gap: 10px;
+}
+
+.bastion-settings-form .slider-field input[type="range"] {
+  flex: 1;
+  height: 6px;
+  cursor: pointer;
+}
+
+.bastion-settings-form .slider-field .range-value {
+  min-width: 45px;
+  text-align: center;
+  font-weight: 500;
+  font-family: monospace;
+}
+
+.bastion-settings-form .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.bastion-settings-form .checkbox input {
+  margin: 0;
+}
+
+.bastion-settings-form .player-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: var(--color-bg);
+  border-radius: 4px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.bastion-settings-form .form-group-inline {
+  display: flex;
+  gap: 16px;
+}
+
+.bastion-settings-form .form-group-inline .form-group {
+  flex: 1;
+}
+
+.bastion-settings-form .hint {
+  font-size: 0.8rem;
+  color: var(--color-text-dark-secondary);
+  margin: 4px 0 0 0;
+  font-style: italic;
+}
+
+/* No Bastions */
+.bastion-overview .no-bastions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px;
+  color: var(--bm-text-muted);
+}
+
+.bastion-overview .no-bastions i {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.3;
+  color: var(--bm-accent-dim);
+}
+
+.bastion-overview .no-bastions p {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+}
+
+.bastion-overview .no-bastions .hint {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* ===========================================
+   Detail Application
+   =========================================== */
+
+.bastion-detail {
+  display: flex;
+  flex-direction: column;
+  background: var(--bm-bg-dark);
+  color: var(--bm-text);
+}
+
+.bastion-detail .window-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0;
+  background: var(--bm-bg-dark);
+  overflow: hidden;
+}
+
+/* Detail Header */
+.bastion-detail .detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bm-surface);
+  border-bottom: 2px solid var(--bm-accent);
+  flex-shrink: 0;
+}
+
+.bastion-detail .bastion-portrait {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid var(--bm-accent);
+  flex-shrink: 0;
+}
+
+.bastion-detail .bastion-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bastion-detail .bastion-info .bastion-title {
+  margin: 0 0 6px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bm-text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bastion-detail .bastion-info .owner-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.bastion-detail .bastion-info .owner-info:hover {
+  background: var(--bm-surface-hover);
+}
+
+.bastion-detail .bastion-info .owner-portrait {
+  width: 26px;
+  height: 26px;
+}
+
+.bastion-detail .bastion-info .owner-level {
+  color: var(--bm-text-muted);
+  font-size: 0.8rem;
+  margin-left: auto;
+}
+
+.bastion-detail .facility-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.bastion-detail .summary-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--bm-surface-light);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.bastion-detail .summary-item i {
+  font-size: 0.9rem;
+}
+
+.bastion-detail .summary-item .label {
+  color: var(--bm-text-muted);
+}
+
+.bastion-detail .summary-item .value {
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.bastion-detail .summary-item.special i,
+.bastion-detail .summary-item.special .value {
+  color: var(--bm-special);
+}
+
+.bastion-detail .summary-item.basic i,
+.bastion-detail .summary-item.basic .value {
+  color: var(--bm-basic);
+}
+
+.bastion-detail .summary-item .override {
+  background: var(--bm-success);
+  color: var(--bm-bg-dark);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Tabs Navigation */
+.bastion-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 16px;
+  background: var(--bm-surface);
+  border-bottom: 1px solid var(--bm-border);
+  flex-shrink: 0;
+}
+
+.bastion-tabs .tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+  color: var(--bm-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.bastion-tabs .tab-btn:hover {
+  background: var(--bm-surface-light);
+  color: var(--bm-text);
+}
+
+.bastion-tabs .tab-btn.active {
+  background: var(--bm-bg-dark);
+  border-color: var(--bm-border);
+  border-bottom-color: var(--bm-bg-dark);
+  color: var(--bm-accent);
+}
+
+.bastion-tabs .tab-btn i {
+  font-size: 1rem;
+}
+
+/* ===========================================
+   Facilities Tab
+   =========================================== */
+
+/* Tab content visibility */
+.bastion-detail .tab-content {
+  display: none;
+}
+
+.bastion-detail .tab-content.active {
+  display: flex;
+}
+
+.bastion-detail .detail-facilities {
+  flex: 1;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.bastion-detail .facilities-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.bastion-detail .facilities-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  min-height: 100%;
+}
+
+.bastion-detail .facilities-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.bastion-detail .section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--bm-border);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bm-text-bright);
+}
+
+.bastion-detail .section-header i {
+  font-size: 1rem;
+}
+
+.bastion-detail .special-column .section-header i {
+  color: var(--bm-special);
+}
+
+.bastion-detail .basic-column .section-header i {
+  color: var(--bm-basic);
+}
+
+.bastion-detail .section-header .counter {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--bm-text-muted);
+  font-weight: normal;
+}
+
+.bastion-detail .section-header .edit-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--bm-text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.bastion-detail .section-header .edit-btn:hover {
+  color: var(--bm-accent);
+  background: var(--bm-surface-light);
+}
+
+/* Facility List */
+.bastion-detail .facility-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bastion-detail .facility-item {
+  background: var(--bm-surface);
+  border: 1px solid var(--bm-border);
+  border-radius: 6px;
+  padding: 12px;
+  transition: all 0.2s;
+}
+
+.bastion-detail .facility-item:hover {
+  border-color: var(--bm-accent-dim);
+  background: var(--bm-surface-light);
+}
+
+.bastion-detail .facility-item.disabled {
+  opacity: 0.7;
+  border-color: var(--bm-warning);
+}
+
+.bastion-detail .facility-item.building {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.bastion-detail .facility-item.empty {
+  border-style: dashed;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  color: var(--bm-text-muted);
+  transition: all 0.2s ease;
+}
+
+.bastion-detail .facility-item.empty:hover,
+.bastion-detail .facility-item.empty.drag-over {
+  background: var(--bm-surface-light);
+  border-color: var(--bm-accent);
+  color: var(--bm-text);
+}
+
+.bastion-detail .facility-item.empty.drag-over {
+  border-width: 2px;
+  box-shadow: 0 0 8px var(--bm-accent);
+}
+
+.bastion-detail .empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.bastion-detail .empty-content i {
+  font-size: 1.3rem;
+  color: var(--bm-accent-dim);
+}
+
+.bastion-detail .facility-main {
+  display: flex;
+  gap: 12px;
+}
+
+.bastion-detail .facility-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid var(--bm-border);
+}
+
+.bastion-detail .facility-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bastion-detail .disabled-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bm-warning);
+}
+
+.bastion-detail .facility-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Facility Controls (Edit/Delete buttons) */
+.bastion-detail .facility-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.bastion-detail .facility-item:hover .facility-controls {
+  opacity: 1;
+}
+
+.bastion-detail .facility-controls .control-btn {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--bm-border);
+  border-radius: 4px;
+  background: var(--bm-surface);
+  color: var(--bm-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.15s ease;
+}
+
+.bastion-detail .facility-controls .control-btn:hover {
+  background: var(--bm-surface-light);
+  color: var(--bm-text);
+  border-color: var(--bm-accent);
+}
+
+.bastion-detail .facility-controls .control-btn.danger:hover {
+  background: var(--bm-danger);
+  color: white;
+  border-color: var(--bm-danger);
+}
+
+.bastion-detail .facility-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bastion-detail .facility-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--bm-text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bastion-detail .facility-name.clickable {
+  cursor: pointer;
+}
+
+.bastion-detail .facility-name.clickable:hover {
+  color: var(--bm-accent);
+}
+
+.bastion-detail .order-badge {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.bastion-detail .order-badge img {
+  width: 100%;
+  height: 100%;
+}
+
+.bastion-detail .facility-subtitle {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--bm-text-muted);
+  margin-top: 2px;
+}
+
+.bastion-detail .facility-progress {
+  position: relative;
+  height: 16px;
+  margin-top: 8px;
+  background: var(--bm-bg-dark);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bastion-detail .facility-progress .progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bm-accent-dim), var(--bm-accent));
+  border-radius: 8px;
+  transition: width 0.3s;
+}
+
+.bastion-detail .facility-progress .progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.bastion-detail .progress-mini {
+  width: 50px;
+  height: 5px;
+  background: var(--bm-bg-dark);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-top: 4px;
+}
+
+.bastion-detail .progress-mini .progress-bar {
+  height: 100%;
+  background: var(--bm-accent);
+  border-radius: 3px;
+}
+
+/* Basic Facility List */
+.bastion-detail .facility-list.basic-list .facility-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.bastion-detail .facility-list.basic-list .facility-image {
+  width: 40px;
+  height: 40px;
+}
+
+.bastion-detail .facility-list.basic-list .facility-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bastion-detail .facility-list.basic-list .facility-item.empty {
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: auto;
+  padding: 12px;
+}
+
+/* Occupants */
+.bastion-detail .facility-occupants-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--bm-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bastion-detail .occupant-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bastion-detail .group-label {
+  font-size: 0.7rem;
+  color: var(--bm-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bastion-detail .occupant-slots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bastion-detail .occupant-slot {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--bm-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bm-bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.bastion-detail .occupant-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bastion-detail .occupant-slot.empty {
+  border-style: dashed;
+  cursor: pointer;
+  color: var(--bm-text-muted);
+  font-size: 0.7rem;
+}
+
+.bastion-detail .occupant-slot.empty:hover,
+.bastion-detail .occupant-slot.drag-over {
+  border-color: var(--bm-accent);
+  background: var(--bm-surface-light);
+}
+
+.bastion-detail .occupant-slot .delete-btn {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  background: var(--bm-danger);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.5rem;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.bastion-detail .occupant-slot:hover .delete-btn {
+  display: flex;
+}
+
+/* Crafting */
+.bastion-detail .facility-craft {
+  margin-top: 8px;
+  padding: 6px 8px;
+  background: var(--bm-bg-dark);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bastion-detail .craft-label {
+  font-size: 0.75rem;
+  color: var(--bm-text-muted);
+}
+
+.bastion-detail .craft-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bastion-detail .craft-item img {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.bastion-detail .craft-item span {
+  font-size: 0.8rem;
+}
+
+/* ===========================================
+   Description Tab
+   =========================================== */
+
+.bastion-detail .detail-description {
+  flex: 1;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.bastion-detail .detail-description .description-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.bastion-detail .description-header {
+  margin-bottom: 16px;
+}
+
+.bastion-detail .description-body {
+  margin-bottom: 24px;
+}
+
+.bastion-detail .description-text {
+  padding: 16px;
+  background: var(--bm-surface);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.bastion-detail .description-text p {
+  margin: 0 0 12px 0;
+}
+
+.bastion-detail .description-text p:last-child {
+  margin-bottom: 0;
+}
+
+.bastion-detail .no-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  color: var(--bm-text-muted);
+  background: var(--bm-surface);
+  border-radius: 6px;
+}
+
+.bastion-detail .no-description i {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.3;
+  color: var(--bm-accent-dim);
+}
+
+.bastion-detail .no-description p {
+  margin: 0 0 16px 0;
+}
+
+.bastion-detail .add-description-btn {
+  background: transparent;
+  border: 1px dashed var(--bm-border);
+  color: var(--bm-text-muted);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bastion-detail .add-description-btn:hover {
+  border-color: var(--bm-accent);
+  color: var(--bm-text);
+  background: var(--bm-surface-light);
+}
+
+/* Roster in Description Tab */
+.bastion-detail .roster {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--bm-surface);
+  border-radius: 6px;
+}
+
+.bastion-detail .roster-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--bm-border);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bm-text-bright);
+}
+
+.bastion-detail .roster-header i {
+  color: var(--bm-accent);
+}
+
+.bastion-detail .roster-header .count {
+  margin-left: auto;
+  background: var(--bm-surface-light);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: var(--bm-text-muted);
+}
+
+.bastion-detail .roster-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bastion-detail .roster-item {
+  padding: 6px 8px;
+  background: var(--bm-bg-dark);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bastion-detail .roster-item:last-child {
+  margin-bottom: 0;
+}
+
+.bastion-detail .roster-name {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bastion-detail .roster-location {
+  font-size: 0.7rem;
+  color: var(--bm-text-muted);
+}
+
+/* No Actor Message */
+.bastion-detail .no-actor-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--bm-text-muted);
+}
+
+.bastion-detail .no-actor-message i {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+/* ===========================================
+   Dialog Styles
+   =========================================== */
+
+/* ===========================================
+   Responsive
+   =========================================== */
+
+@media (max-width: 750px) {
+  .facilities-columns {
+    grid-template-columns: 1fr;
+  }
+  
+  .detail-header {
+    flex-wrap: wrap;
+  }
+  
+  .facility-summary {
+    flex-direction: row;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .summary-item {
+    flex: 1;
+  }
+}
+
+/* ===========================================
+   Scrollbar Styling
+   =========================================== */
+
+.bastion-manager ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.bastion-manager ::-webkit-scrollbar-track {
+  background: var(--bm-bg-dark);
+  border-radius: 4px;
+}
+
+.bastion-manager ::-webkit-scrollbar-thumb {
+  background: var(--bm-border);
+  border-radius: 4px;
+}
+
+.bastion-manager ::-webkit-scrollbar-thumb:hover {
+  background: var(--bm-border-light);
+}
+
+/* ===========================================
+   Manage Bastions Dialog
+   =========================================== */
+
+.bastion-manage-form {
+  padding: 8px 0;
+}
+
+.bastion-manage-form .hint {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+.bastion-manage-form .character-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.bastion-manage-form .character-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--color-bg-option);
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+}
+
+.bastion-manage-form .character-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid var(--color-border-light);
+}
+
+.bastion-manage-form .character-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bastion-manage-form .character-name {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.bastion-manage-form .character-owner {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.bastion-manage-form .no-characters {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: 20px;
+  font-style: italic;
+}

@@ -1,0 +1,115 @@
+{
+  "BASTION_MANAGER": {
+    "SceneControl": {
+      "Title": "Open Bastion Manager"
+    },
+    "Settings": {
+      "ColumnsPerRow": {
+        "Name": "Bastions Per Row",
+        "Hint": "How many bastion cards to display per row in the overview. (Default: 2)"
+      },
+      "CardHeight": {
+        "Name": "Card Height (px)",
+        "Hint": "The height of each bastion card in pixels. (Default: 80)"
+      }
+    },
+    "Overview": {
+      "Title": "Bastions",
+      "Refresh": "Refresh",
+      "NoBastions": "No Bastions Found",
+      "NoBastionsHint": "You don't have access to any bastions yet.",
+      "NoBastionsHintGM": "Assign a character to a player to see their bastion here.",
+      "ManageBastions": "Manage Bastions",
+      "NoCharacters": "No player-owned characters found."
+    },
+    "Detail": {
+      "Title": "Bastion Management",
+      "OpenCharacter": "Open Character Sheet",
+      "OpenFacility": "Open Facility Details",
+      "EditFacility": "Edit Facility",
+      "DeleteFacility": "Delete Facility",
+      "UseFacility": "Use Facility",
+      "DropActor": "Drag an actor here",
+      "RemoveOccupant": "Remove",
+      "EditDescription": "Edit Description",
+      "AddDescription": "Add Description",
+      "DMOverride": "DM Override"
+    },
+    "Tabs": {
+      "Facilities": "Facilities",
+      "Description": "Description"
+    },
+    "ContextMenu": {
+      "SetImage": "Set Bastion Image",
+      "SetName": "Set Bastion Name",
+      "Visibility": "Sharing Settings",
+      "BuildingOverrides": "Building Overrides",
+      "Settings": "Bastion Settings"
+    },
+    "Dialog": {
+      "BastionName": "Bastion Name",
+      "BasicInfo": "Basic Information",
+      "Appearance": "Appearance",
+      "AccentColor": "Card Accent Color",
+      "AccentColorHint": "The fade color for the card background. (Default: #2d2d2d)",
+      "ResetColor": "Reset to default color",
+      "FadeAmount": "Fade Amount",
+      "FadeAmountHint": "How much of the card is covered by the fade. (Default: 70%)",
+      "ResetFade": "Reset to default fade",
+      "DisableFade": "Disable Fade Effect",
+      "DisableFadeHint": "Turn off the gradient fade completely",
+      "TextColor": "Text Color",
+      "TextColorHint": "The color of the text on the card. (Default: #ffffff)",
+      "ResetTextColor": "Reset to default text color",
+      "TextOutline": "Text Outline",
+      "TextOutlineHint": "Add a dark outline/shadow to the text for better readability",
+      "BrowseFiles": "Browse Files",
+      "DeleteFacility": "Delete Facility",
+      "DeleteFacilityConfirm": "Are you sure you want to delete <strong>{name}</strong>? This cannot be undone.",
+      "ManageBastions": "Manage Character Bastions",
+      "ManageBastionsHint": "Select which characters have bastions displayed in the overview.",
+      "CharacterBastions": "Character Bastions",
+      "AddBastion": "Add Bastion",
+      "RemoveBastion": "Remove Bastion"
+    },
+    "Visibility": {
+      "Public": "Public (All Players)",
+      "PublicHint": "Allow all players to view this bastion",
+      "Shared": "Shared",
+      "ShareWith": "Share with specific players:",
+      "NoPlayers": "No other players available"
+    },
+    "BuildingOverrides": {
+      "Description": "Grant additional building slots beyond the character level allowance.",
+      "ExtraBasic": "Extra Basic Facilities",
+      "ExtraSpecial": "Extra Special Facilities"
+    },
+    "Facilities": {
+      "Creatures": "Creatures",
+      "Crafting": "Crafting",
+      "Days": "days"
+    },
+    "Description": {
+      "Title": "Bastion Description",
+      "Empty": "No description has been added for this bastion."
+    },
+    "Sidebar": {
+      "SelectCharacter": "Select a character to view their bastion."
+    },
+    "Warnings": {
+      "NoActorSelected": "No character selected.",
+      "SlotFull": "This slot is already full.",
+      "NoPermission": "You don't have permission to view this bastion.",
+      "ItemNotFound": "Could not find the dropped item.",
+      "NotAFacility": "Only facility items can be dropped here.",
+      "WrongFacilityType": "Wrong facility type. Expected {expected}, got {received}.",
+      "LevelTooLow": "Character level too low. This facility requires level {required}, but character is level {current}."
+    },
+    "Notifications": {
+      "FacilityAdded": "{name} has been added to the bastion.",
+      "FacilityDeleted": "{name} has been removed from the bastion.",
+      "BastionAdded": "Bastion added for {name}.",
+      "BastionRemoved": "Bastion removed for {name}."
+    }
+  }
+}

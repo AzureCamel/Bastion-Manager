@@ -1,0 +1,78 @@
+<section class="detail-description tab-content" data-tab="description" data-group="primary">
+  {{#if actor}}
+  <div class="description-scroll-content">
+    <div class="description-header">
+      <h3 class="section-header">
+        <i class="fas fa-scroll"></i>
+        {{localize "BASTION_MANAGER.Description.Title"}}
+        {{#if editable}}
+        <button type="button" class="edit-btn" data-action="editDescription" data-tooltip="{{localize 'BASTION_MANAGER.Detail.EditDescription'}}">
+          <i class="fas fa-edit"></i>
+        </button>
+        {{/if}}
+      </h3>
+    </div>
+    
+    <div class="description-body">
+      {{#if bastion.description}}
+      <div class="description-text">
+        {{{bastion.description}}}
+      </div>
+      {{else}}
+      <div class="no-description">
+        <i class="fas fa-scroll"></i>
+        <p>{{localize "BASTION_MANAGER.Description.Empty"}}</p>
+        {{#if editable}}
+        <button type="button" class="add-description-btn" data-action="editDescription">
+          <i class="fas fa-plus"></i>
+          {{localize "BASTION_MANAGER.Detail.AddDescription"}}
+        </button>
+        {{/if}}
+      </div>
+      {{/if}}
+    </div>
+    
+    {{!-- Roster summaries in description tab --}}
+    {{#if defenders.length}}
+    <div class="roster defenders-roster">
+      <h4 class="roster-header">
+        <i class="fas fa-shield"></i>
+        {{localize "DND5E.FACILITY.FIELDS.defenders.max.label"}}
+        <span class="count">{{defenders.length}}</span>
+      </h4>
+      <ul class="roster-list">
+        {{#each defenders as |def|}}
+        <li class="roster-item">
+          <span class="roster-name">{{def.uuid}}</span>
+          <span class="roster-location">{{def.facilityName}}</span>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/if}}
+    
+    {{#if hirelings.length}}
+    <div class="roster hirelings-roster">
+      <h4 class="roster-header">
+        <i class="fas fa-users"></i>
+        {{localize "DND5E.FACILITY.FIELDS.hirelings.max.label"}}
+        <span class="count">{{hirelings.length}}</span>
+      </h4>
+      <ul class="roster-list">
+        {{#each hirelings as |hire|}}
+        <li class="roster-item">
+          <span class="roster-name">{{hire.uuid}}</span>
+          <span class="roster-location">{{hire.facilityName}}</span>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/if}}
+  </div>
+  {{else}}
+  <div class="no-actor-message">
+    <i class="fas fa-chess-rook"></i>
+    <p>{{localize "BASTION_MANAGER.Sidebar.SelectCharacter"}}</p>
+  </div>
+  {{/if}}
+</section>
